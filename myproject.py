@@ -1,38 +1,27 @@
-import tkinter as tk # i am importing my tkinter module
-from tkinter import* # im importing everything from tkinter module
+import streamlit as st 
+import googletrans
+translator = googletrans.Translator()
 
-top=Tk() # creating tkinter window
-top.title("EB Bill Amount Calculator")
-top.geometry("600x600")# used to set dimensions of it
+st.set_page_config(page_title="My Internship project")
+st.sidebar.header('About')
+st.sidebar.text('Language transulator internship project by harichselvam') 
+st.header("My Projects")
+# st.write("language transulator")
 
-unit= StringVar()
-amount=StringVar()
+st.title("This is a language transulator")#title of the page
+st.write("language transulator")
+# st.markdown('i used googles transulator library')
 
-# Create Button and add some text
-#button = Button(root, text = 'Geeks')
-#button.pack(side = TOP, pady = 5)
-
-def calculate():
-    units=int(unit.get())
-    billamount=0
-    if units>=1 and units<=100:
-        billamount=units*1
-    elif units>=101 and units<=200:
-        billamount=4.50*(units)+2.50
-    elif units>=101 and units<=200:
-        billamount=4.50*(units)+4.50
-    elif units>=101 and units<=200:
-        billamount=6.00*(units)+6.0
-
-    amount.set("Rs: "+str(billamount))
+option=st.selectbox('Select Language',tuple(googletrans.LANGUAGES.values())) #selectbox method options 
+text=st.text_area('Input the text')
 
 
-  
-label1=Label(top,text="Enter the unit you consumed: ").place(x=10,y=30)
-entry1=Entry(top,textvariable=unit,).place(x=220,y=30)
-btn1 = Button(top,text = "Calculate",command = calculate).place(x=250,y=60)
+def getkey(val):#defining the fucntions
+    for key, value in googletrans.LANGUAGES.items():
+         if val == value:
+                return key
+    return "key doesn't exist"
 
-lable2 = Label(top,text = "Bill amount : ").place(x =20,y=90)
-entry2 = Entry(top,textvariable = amount).place(x=220,y=90)
 
-top.mainloop() # execute tkinter
+translated = translator.translate(text, dest=getkey(option))
+st.write(translated.text)
